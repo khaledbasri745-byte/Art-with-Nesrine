@@ -164,6 +164,7 @@
         .author-info span {
             font-size: 11px;
             color: var(--text-muted);
+            display: block;
         }
 
         .save-art-btn {
@@ -354,7 +355,7 @@
             flex-shrink: 0;
         }
 
-        /* صفحة الحساب الكاملة (Full Profile Page View) */
+        /* صفحة الحساب الكاملة */
         .full-profile-container {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -473,7 +474,6 @@
             text-align: center;
         }
 
-        /* نظام السلايدر التفاعلي للملف الشخصي (Tabs Slider) */
         .profile-tabs-nav {
             display: flex;
             background: rgba(0,0,0,0.25);
@@ -481,15 +481,17 @@
             padding: 4px;
             margin-bottom: 15px;
             gap: 4px;
+            flex-wrap: wrap;
         }
 
         .profile-tab-btn {
             flex: 1;
+            min-width: 75px;
             background: transparent;
             border: none;
             color: var(--text-muted);
-            padding: 8px;
-            font-size: 11px;
+            padding: 8px 4px;
+            font-size: 10px;
             font-weight: 700;
             border-radius: 8px;
             cursor: pointer;
@@ -509,7 +511,6 @@
             display: block;
         }
 
-        /* شبكة مربعات المحفوظات / التفاعلات */
         .interactive-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -546,7 +547,29 @@
             text-overflow: ellipsis;
         }
 
-        /* صندوق ترقية وتفعيل حساب Pro الاحترافي */
+        .delete-upload-item-btn {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            background: rgba(231, 76, 60, 0.85);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            font-size: 11px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+            z-index: 5;
+        }
+        .delete-upload-item-btn:hover {
+            background: #e74c3c;
+            transform: scale(1.1);
+        }
+
         .pro-upgrade-box {
             background: linear-gradient(135deg, rgba(132,94,194,0.15), rgba(255,111,145,0.15));
             border: 1px solid var(--primary);
@@ -611,7 +634,6 @@
             color: #fff;
         }
 
-        /* النوافذ المنبثقة الخفيفة (مشاركة، دخول، رفع رسومات) */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -671,7 +693,6 @@
             cursor: pointer;
         }
 
-        /* شبكة مشاركة السوشيال ميديا */
         .social-share-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -759,6 +780,13 @@
         .form-input:focus {
             border-color: var(--primary);
         }
+        
+        .form-input[readonly] {
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            border-style: dashed;
+        }
 
         .submit-login-btn {
             width: 100%;
@@ -773,25 +801,6 @@
             margin-top: 5px;
         }
 
-        /* نافذة عرض المنشور المحفوظ كاملاً */
-        .full-post-modal-box {
-            max-width: 480px;
-            background: var(--card-bg);
-            border-radius: 14px;
-            overflow: hidden;
-            padding: 0;
-        }
-        .full-post-header {
-            padding: 12px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-color);
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        /* تصميم الـ Dialog الاحترافي بتنسيق فاخر بإسم الموقع وكود التفعيل */
         dialog {
             background: linear-gradient(145deg, #1a1a24, #12121a);
             color: var(--text-main);
@@ -878,11 +887,6 @@
             transition: 0.2s;
         }
 
-        .dialog-body a:hover {
-            color: #fff;
-            border-color: #fff;
-        }
-
         .dialog-btn {
             background: linear-gradient(135deg, var(--primary), var(--primary-hover));
             color: white;
@@ -897,12 +901,6 @@
             transition: 0.3s;
         }
 
-        .dialog-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(132, 94, 194, 0.6);
-        }
-
-        /* حقوق النشر في أسفل الموقع */
         footer.site-footer {
             text-align: center;
             padding: 20px 0 10px 0;
@@ -936,7 +934,7 @@
                 </div>
             </header>
 
-            <!-- زر رفع الرسوم (يظهر فقط للحسابات الاحترافية المعتمدة) -->
+            <!-- زر رفع الرسوم (يظهر فقط للحسابات المفعلة Pro) -->
             <div id="uploadPostContainer" style="display: none; margin-bottom: 20px;">
                 <button class="submit-login-btn" onclick="openUploadPostModal()" style="display: flex; align-items: center; justify-content: center; gap: 8px; background: linear-gradient(135deg, var(--primary), var(--accent));">
                     <i class="fa-solid fa-cloud-arrow-up"></i> نشر رسومات وأعمال فنية جديدة
@@ -944,13 +942,13 @@
             </div>
 
             <!-- المنشور الأول -->
-            <div class="art-card" id="post-1">
+            <div class="art-card" id="post-1" data-post-id="1">
                 <div class="art-header">
                     <div class="author-flex">
-                        <div class="avatar"><img src="https://lh3.googleusercontent.com/d/1mopY53KP7t2PzraC5nfRH12Yk8odpTLR=s200" alt="Nesrine"></div>
+                        <div class="avatar"><img src="https://lh3.googleusercontent.com/d/1mopY53KP7t2PzraC5nfRH12Yk8odpTLR=s200" alt="Nesrine.B"></div>
                         <div class="author-info">
-                            <h3>Nesrine.B <i class="fa-solid fa-circle-check" style="color:var(--accent); font-size:11px;" title="حساب احترافي موثق"></i></h3>
-                            <span>لوحة صمت المشاعر</span>
+                            <h3>Nesrine.B <i class="fa-solid fa-circle-check" style="color:var(--accent); font-size:11px;" title="حساب موثق"></i></h3>
+                            <span>ID: khbsr9a8b7c6d5e4</span>
                         </div>
                     </div>
                     <button class="save-art-btn" id="saveBtn-1" onclick="toggleSaveArtwork('1', 'لوحة صمت المشاعر', 'https://lh3.googleusercontent.com/d/1mopY53KP7t2PzraC5nfRH12Yk8odpTLR=s1000', 'قد تبدو هذه مجرد رسمة، لكنها في الحقيقة لحظة صامتة اختُزلت فيها آلاف المشاعر.')" title="حفظ في المفضلة">
@@ -969,6 +967,7 @@
                 </div>
                 <div class="art-stats">
                     <span id="likeText-1">❤️ 24 إعجاب</span>
+                    <span id="viewText-1" style="font-size:11px; color:var(--text-muted);"><i class="fa-solid fa-eye"></i> 142 مشاهدة</span>
                     <button class="download-phone-btn" onclick="downloadImageWithLogo('img-1', 'Nesrine_Artwork_1.jpg', 'لوحة صمت المشاعر')">
                         <i class="fa-solid fa-download"></i> تنزيل الرسمة مع الشعار
                     </button>
@@ -977,15 +976,15 @@
                     <button class="action-btn" id="likeBtn-1" onclick="toggleLike('1', 'لوحة صمت المشاعر', 'https://lh3.googleusercontent.com/d/1mopY53KP7t2PzraC5nfRH12Yk8odpTLR=s1000')">
                         <i class="fa-regular fa-heart" id="likeIcon-1"></i> إعجاب
                     </button>
-                    <button class="action-btn" onclick="openShareModal('لوحة صمت المشاعر')">
+                    <button class="action-btn" onclick="openShareModal('لوحة صمت المشاعر', '1')">
                         <i class="fa-solid fa-share"></i> مشاركة
                     </button>
                 </div>
                 <div class="comments-section" id="commentsList-1">
                     <div class="comment">
-                        <div class="avatar" style="width: 28px; height: 28px; font-size: 11px;">K</div>
+                        <div class="avatar" style="width: 28px; height: 28px; font-size: 11px;">N</div>
                         <div class="comment-bubble">
-                            <div class="comment-user">Khaled Basri</div>
+                            <div class="comment-user">Nesrine.B (ID: khbsr9a8b7c6d5e4)</div>
                             <div class="comment-text">رسمة ممتازة وكلمات تلامس القلب تماماً! 🌟</div>
                         </div>
                     </div>
@@ -997,13 +996,13 @@
             </div>
 
             <!-- المنشور الثاني -->
-            <div class="art-card" id="post-2">
+            <div class="art-card" id="post-2" data-post-id="2">
                 <div class="art-header">
                     <div class="author-flex">
-                        <div class="avatar"><img src="https://lh3.googleusercontent.com/d/1mopY53KP7t2PzraC5nfRH12Yk8odpTLR=s200" alt="Nesrine"></div>
+                        <div class="avatar"><img src="https://lh3.googleusercontent.com/d/1mopY53KP7t2PzraC5nfRH12Yk8odpTLR=s200" alt="Nesrine.B"></div>
                         <div class="author-info">
-                            <h3>Nesrine.B <i class="fa-solid fa-circle-check" style="color:var(--accent); font-size:11px;" title="حساب احترافي موثق"></i></h3>
-                            <span>أطياف النور الخافت</span>
+                            <h3>Nesrine.B <i class="fa-solid fa-circle-check" style="color:var(--accent); font-size:11px;" title="حساب موثق"></i></h3>
+                            <span>ID: khbsr9a8b7c6d5e4</span>
                         </div>
                     </div>
                     <button class="save-art-btn" id="saveBtn-2" onclick="toggleSaveArtwork('2', 'أطياف النور الخافت', 'https://lh3.googleusercontent.com/d/1mw0_NzA5BJyXTmPzl7liiG-FVp8OyF6A=s1000', 'حيث يتلاقى الظل مع النور لتشكل لوحة تنطق بالجمال الخفي.')" title="حفظ في المفضلة">
@@ -1022,6 +1021,7 @@
                 </div>
                 <div class="art-stats">
                     <span id="likeText-2">❤️ 41 إعجاب</span>
+                    <span id="viewText-2" style="font-size:11px; color:var(--text-muted);"><i class="fa-solid fa-eye"></i> 210 مشاهدة</span>
                     <button class="download-phone-btn" onclick="downloadImageWithLogo('img-2', 'Nesrine_Artwork_2.jpg', 'أطياف النور الخافت')">
                         <i class="fa-solid fa-download"></i> تنزيل الرسمة مع الشعار
                     </button>
@@ -1030,7 +1030,7 @@
                     <button class="action-btn" id="likeBtn-2" onclick="toggleLike('2', 'أطياف النور الخافت', 'https://lh3.googleusercontent.com/d/1mw0_NzA5BJyXTmPzl7liiG-FVp8OyF6A=s1000')">
                         <i class="fa-regular fa-heart" id="likeIcon-2"></i> إعجاب
                     </button>
-                    <button class="action-btn" onclick="openShareModal('أطياف النور الخافت')">
+                    <button class="action-btn" onclick="openShareModal('أطياف النور الخافت', '2')">
                         <i class="fa-solid fa-share"></i> مشاركة
                     </button>
                 </div>
@@ -1038,7 +1038,7 @@
                     <div class="comment">
                         <div class="avatar" style="width: 28px; height: 28px; font-size: 11px; background: #ff6f91;">N</div>
                         <div class="comment-bubble">
-                            <div class="comment-user">Nesrine</div>
+                            <div class="comment-user">Nesrine.B (ID: khbsr9a8b7c6d5e4)</div>
                             <div class="comment-text">شكراً لتفاعلكم الراقي جميعاً ❤️</div>
                         </div>
                     </div>
@@ -1054,11 +1054,11 @@
 
             <!-- حقوق النشر الرسمية -->
             <footer class="site-footer">
-                جميع الحقوق محفوظة KHBSR © 2026
+                جميع الحقوق محفوظة khbsr © 2026
             </footer>
         </div>
 
-        <!-- صفحة الحساب الكاملة (Full Profile Page) -->
+        <!-- صفحة الحساب الكاملة -->
         <div id="profileView" class="view-section">
             <button class="back-to-home-btn" onclick="switchToHomeView()">
                 <i class="fa-solid fa-arrow-right"></i> العودة للمعرض الرئيسي
@@ -1067,20 +1067,25 @@
             <div class="full-profile-container">
                 <div class="profile-top-area">
                     <div class="profile-avatar-container">
-                        <div class="profile-avatar-large" id="profileAvatarBox">ز</div>
+                        <div class="profile-avatar-large" id="profileAvatarBox">ك</div>
                         <label for="avatarUploadInput" class="upload-avatar-label" title="تغيير صورة البروفايل">
                             <i class="fa-solid fa-camera"></i>
                         </label>
                         <input type="file" id="avatarUploadInput" accept="image/*" style="display: none;" onchange="uploadProfileAvatar(event)">
                     </div>
                     <div class="profile-name-box">
-                        <h3 id="profileDisplayName">زائر الكريم <span id="proBadgeIcon" style="display:none; color:var(--accent); font-size:14px;"><i class="fa-solid fa-circle-check" title="حساب احترافي موثق"></i></span></h3>
-                        <div class="profile-email-sub" id="profileDisplayEmail">visitor@art.com</div>
+                        <h3 id="profileDisplayName">خالد</h3>
+                        <div class="profile-email-sub" id="profileDisplayEmail">khaled.basri745@gmail.com</div>
+                        <div class="profile-email-sub" id="profileDisplayId" style="color: var(--primary); font-weight: bold; margin-top: 2px;">ID: khbsr3f7a2b9c1d4</div>
                         <div class="profile-bio" id="profileDisplayBio">محب للفنون البصرية والرسومات التعبيرية الراقية ✨</div>
                     </div>
                 </div>
 
                 <div class="profile-stats-row">
+                    <div>
+                        <span class="profile-stat-num" id="statUploadsCount">0</span>
+                        <span>أعمالي المنشورة</span>
+                    </div>
                     <div>
                         <span class="profile-stat-num" id="statSavedCount">0</span>
                         <span>المحفوظات</span>
@@ -1088,10 +1093,6 @@
                     <div>
                         <span class="profile-stat-num" id="statLikesCount">0</span>
                         <span>الإعجابات</span>
-                    </div>
-                    <div>
-                        <span class="profile-stat-num" id="statCommentsCount">0</span>
-                        <span>التعليقات</span>
                     </div>
                     <div>
                         <span class="profile-stat-num" id="statSharesCount">0</span>
@@ -1109,17 +1110,20 @@
                     </div>
                 </div>
 
-                <!-- نظام السلايدر التفاعلي للمنشورات المتفاعل معها -->
+                <!-- نظام السلايدر التفاعلي -->
                 <div style="margin-top: 15px;">
                     <div class="profile-tabs-nav">
-                        <button class="profile-tab-btn active" onclick="switchProfileTab('saved', this)">المحفوظات (<span id="tabCountSaved">0</span>)</button>
+                        <button class="profile-tab-btn active" onclick="switchProfileTab('uploads', this)">أعمالي (<span id="tabCountUploads">0</span>)</button>
+                        <button class="profile-tab-btn" onclick="switchProfileTab('saved', this)">المحفوظات (<span id="tabCountSaved">0</span>)</button>
                         <button class="profile-tab-btn" onclick="switchProfileTab('likes', this)">الإعجابات (<span id="tabCountLikes">0</span>)</button>
                         <button class="profile-tab-btn" onclick="switchProfileTab('comments', this)">التعليقات (<span id="tabCountComments">0</span>)</button>
                         <button class="profile-tab-btn" onclick="switchProfileTab('shares', this)">المشاركات (<span id="tabCountShares">0</span>)</button>
                     </div>
 
-                    <!-- محتوى علامات التبويب السلايدر -->
-                    <div class="profile-tab-content active" id="tabContent-saved">
+                    <div class="profile-tab-content active" id="tabContent-uploads">
+                        <div class="interactive-grid" id="uploadsGridContainer"></div>
+                    </div>
+                    <div class="profile-tab-content" id="tabContent-saved">
                         <div class="interactive-grid" id="savedGridContainer"></div>
                     </div>
                     <div class="profile-tab-content" id="tabContent-likes">
@@ -1133,19 +1137,18 @@
                     </div>
                 </div>
 
-                <button class="edit-profile-btn" onclick="openEditProfileModal()"><i class="fa-solid fa-pen-to-square"></i> تعديل بيانات الحساب والبريد</button>
+                <button class="edit-profile-btn" onclick="openEditProfileModal()"><i class="fa-solid fa-pen-to-square"></i> تعديل بيانات الحساب (المعرف ثابت)</button>
                 <button class="submit-login-btn" style="background:#e74c3c; margin-top:10px;" onclick="performLogout()">تسجيل الخروج</button>
             </div>
 
-            <!-- حقوق النشر الرسمية -->
             <footer class="site-footer">
-                جميع الحقوق محفوظة KHBSR © 2026
+                جميع الحقوق محفوظة khbsr © 2026
             </footer>
         </div>
 
     </div>
 
-    <!-- نافذة Dialog الاحترافية المنسقة خصيصاً للموقع والتواصل -->
+    <!-- نافذة Dialog الاحترافية -->
     <dialog id="professionalDialog">
         <div class="pro-dialog-badge">Art with Nesrine • Pro Services</div>
         <div id="dialogIcon" class="dialog-icon">✨</div>
@@ -1181,7 +1184,11 @@
             </div>
             <div class="form-group">
                 <label>اسم المستخدم</label>
-                <input type="text" class="form-input" id="editNameInput">
+                <input type="text" class="form-input" id="editNameInput" value="خالد">
+            </div>
+            <div class="form-group">
+                <label>معرف الحساب (معرّف ثابت 16 خانة - غير قابل للتعديل)</label>
+                <input type="text" class="form-input" id="editIdInput" readonly title="المعرف فريد وغير قابل للتعديل">
             </div>
             <div class="form-group">
                 <label>البريد الإلكتروني</label>
@@ -1215,11 +1222,15 @@
             </div>
             <div class="form-group">
                 <label>اسم المستخدم</label>
-                <input type="text" class="form-input" id="usernameInput" placeholder="أدخل اسمك...">
+                <input type="text" class="form-input" id="usernameInput" value="خالد" placeholder="اسم المستخدم">
+            </div>
+            <div class="form-group">
+                <label>معرف الحساب (يُنشأ تلقائياً 16 خانة فريدة)</label>
+                <input type="text" class="form-input" id="userIdInput" readonly style="background: rgba(255,255,255,0.03); border-style: dashed; color: var(--text-muted); cursor: not-allowed;">
             </div>
             <div class="form-group">
                 <label>البريد الإلكتروني</label>
-                <input type="email" class="form-input" id="emailInput" placeholder="example@gmail.com">
+                <input type="email" class="form-input" id="emailInput" value="khaled.basri745@gmail.com" placeholder="khaled.basri745@gmail.com">
             </div>
             <button class="submit-login-btn" onclick="performLogin()">دخول وإنشاء الحساب</button>
         </div>
@@ -1237,8 +1248,12 @@
                 <input type="text" class="form-input" id="newArtTitle" placeholder="مثال: أضواء الغسق...">
             </div>
             <div class="form-group">
-                <label>رابط الصورة المباشر (Image URL)</label>
-                <input type="text" class="form-input" id="newArtImgUrl" placeholder="https://example.com/image.jpg">
+                <label>رابط الصورة (من غوغل درايف أو أي موقع) أو ارفع صورة مباشرة</label>
+                <input type="text" class="form-input" id="newArtImgUrl" placeholder="https://... (اختياري إذا رفعت ملفاً)">
+            </div>
+            <div class="form-group">
+                <label>أو رفع صورة من الجهاز (تحفظ في الكاش تلقائياً)</label>
+                <input type="file" class="form-input" id="newArtFile" accept="image/*">
             </div>
             <div class="form-group">
                 <label>وصف / تعليق فني</label>
@@ -1270,17 +1285,45 @@
 
     <script>
         const CURRENT_ACTIVATION_CODE = "KhBsrN070405";
+        const FORMSPREE_ENDPOINT = "https://formspree.io/f/mnjeeerw";
 
-        // استرجاع البيانات من الكاش (localStorage) عند تحميل الصفحة لتجنب اختفاء الحساب
-        let isLoggedIn = localStorage.getItem('art_isLoggedIn') === 'true';
-        let isProAccount = localStorage.getItem('art_isProAccount') === 'true';
+        function generateExact16Id() {
+            const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+            let result = "";
+            for (let i = 0; i < 11; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return "khbsr" + result;
+        }
+
+        function sendToFormspree(payload) {
+            fetch(FORMSPREE_ENDPOINT, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).catch(err => console.log('Formspree sync error:', err));
+        }
+
+        let isLoggedIn = localStorage.getItem('art_isLoggedIn') === 'true' || true;
+        let isProAccount = localStorage.getItem('art_isProAccount') === 'true' || true;
         
+        let storedId = localStorage.getItem('art_userId_16');
+        if (!storedId) {
+            storedId = generateExact16Id();
+            localStorage.setItem('art_userId_16', storedId);
+        }
+
         let currentUser = JSON.parse(localStorage.getItem('art_currentUser')) || {
-            name: "زائر الكريم",
-            email: "visitor@art.com",
-            bio: "محب للفنون البصرية ✨",
+            name: "خالد",
+            accountId: storedId,
+            email: "khaled.basri745@gmail.com",
+            bio: "محب للفنون البصرية والبرمجة ✨",
             avatarUrl: ""
         };
+
+        if(!currentUser.accountId || currentUser.accountId.length !== 16) {
+            currentUser.accountId = storedId;
+        }
 
         let savedPostsList = JSON.parse(localStorage.getItem('art_savedPosts')) || [];
         let likedPostsList = JSON.parse(localStorage.getItem('art_likedPosts')) || [];
@@ -1288,8 +1331,11 @@
         let sharedPostsList = JSON.parse(localStorage.getItem('art_sharedPosts')) || [];
         let customUploadedPosts = JSON.parse(localStorage.getItem('art_customPosts')) || [];
         let likedStatus = JSON.parse(localStorage.getItem('art_likedStatus')) || {};
+        let postStats = JSON.parse(localStorage.getItem('art_postStats')) || {
+            '1': { views: 142, likes: 24, commentsCount: 1 },
+            '2': { views: 210, likes: 41, commentsCount: 1 }
+        };
 
-        // حفظ البيانات في الكاش (localStorage)
         function saveAppDataToCache() {
             localStorage.setItem('art_isLoggedIn', isLoggedIn);
             localStorage.setItem('art_isProAccount', isProAccount);
@@ -1300,9 +1346,39 @@
             localStorage.setItem('art_sharedPosts', JSON.stringify(sharedPostsList));
             localStorage.setItem('art_customPosts', JSON.stringify(customUploadedPosts));
             localStorage.setItem('art_likedStatus', JSON.stringify(likedStatus));
+            localStorage.setItem('art_postStats', JSON.stringify(postStats));
         }
 
-        // عند فتح الصفحة يتم تحميل وتطبيق البيانات المحفوظة مسبقاً
+        function initFakeActivitySimulation() {
+            setInterval(() => {
+                const allPostIds = ['1', '2', ...customUploadedPosts.map(p => p.id)];
+                allPostIds.forEach(id => {
+                    if (!postStats[id]) {
+                        postStats[id] = { views: Math.floor(Math.random() * 50) + 50, likes: Math.floor(Math.random() * 10) + 10, commentsCount: 0 };
+                    }
+                    postStats[id].views += Math.floor(Math.random() * 5) + 1;
+                    const viewEl = document.getElementById(`viewText-${id}`);
+                    if (viewEl) viewEl.innerHTML = `<i class="fa-solid fa-eye"></i> ${postStats[id].views} مشاهدة`;
+                });
+                saveAppDataToCache();
+            }, 12000);
+        }
+
+        function handleDirectUrlRouting() {
+            const params = new URLSearchParams(window.location.search);
+            const postId = params.get('postId');
+            if (postId) {
+                setTimeout(() => {
+                    const targetCard = document.getElementById(`post-${postId}`);
+                    if (targetCard) {
+                        targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        targetCard.style.border = '2px solid var(--accent)';
+                        setTimeout(() => { targetCard.style.border = '1px solid var(--border-color)'; }, 3000);
+                    }
+                }, 300);
+            }
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
             if (isLoggedIn) {
                 document.getElementById('accountBtnText').textContent = currentUser.name;
@@ -1310,8 +1386,11 @@
                     document.getElementById('uploadPostContainer').style.display = 'block';
                 }
             }
+            document.getElementById('userIdInput').value = currentUser.accountId;
             renderCustomUploadedPosts();
             restoreInteractiveUIs();
+            initFakeActivitySimulation();
+            handleDirectUrlRouting();
         });
 
         function handleAccountClick() {
@@ -1335,7 +1414,10 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function openLoginModal() { document.getElementById('loginModal').classList.add('active'); }
+        function openLoginModal() { 
+            document.getElementById('userIdInput').value = currentUser.accountId;
+            document.getElementById('loginModal').classList.add('active'); 
+        }
         function closeLoginModal() { document.getElementById('loginModal').classList.remove('active'); }
 
         function performLogin() {
@@ -1352,7 +1434,15 @@
             closeLoginModal();
             switchToProfileView();
             
-            alert(`أهلاً بك يا ${currentUser.name} في عالمك الفني الخاص! تم حفظ حسابك بنجاح ✨🎨`);
+            sendToFormspree({
+                action: "تسجيل حساب جديد",
+                username: currentUser.name,
+                accountId: currentUser.accountId,
+                email: currentUser.email,
+                time: new Date().toLocaleString()
+            });
+
+            alert(`أهلاً بك يا ${currentUser.name} في حسابك! المعرف الخاص بك غير قابل للتعديل: ${currentUser.accountId} ✨🎨`);
         }
 
         function performLogout() {
@@ -1369,8 +1459,9 @@
         }
 
         function updateProfileUIData() {
-            document.getElementById('profileDisplayName').innerHTML = `${currentUser.name} <span id="proBadgeIcon" style="display:${isProAccount ? 'inline' : 'none'}; color:var(--accent); font-size:14px;"><i class="fa-solid fa-circle-check" title="حساب احترافي موثق"></i></span>`;
+            document.getElementById('profileDisplayName').textContent = currentUser.name;
             document.getElementById('profileDisplayEmail').textContent = currentUser.email;
+            document.getElementById('profileDisplayId').textContent = `ID: ${currentUser.accountId}`;
             document.getElementById('profileDisplayBio').textContent = currentUser.bio;
             
             const avatarBox = document.getElementById('profileAvatarBox');
@@ -1380,11 +1471,12 @@
                 avatarBox.innerHTML = currentUser.name.charAt(0).toUpperCase();
             }
 
+            document.getElementById('statUploadsCount').textContent = customUploadedPosts.length;
             document.getElementById('statSavedCount').textContent = savedPostsList.length;
             document.getElementById('statLikesCount').textContent = likedPostsList.length;
-            document.getElementById('statCommentsCount').textContent = commentedPostsList.length;
             document.getElementById('statSharesCount').textContent = sharedPostsList.length;
 
+            document.getElementById('tabCountUploads').textContent = customUploadedPosts.length;
             document.getElementById('tabCountSaved').textContent = savedPostsList.length;
             document.getElementById('tabCountLikes').textContent = likedPostsList.length;
             document.getElementById('tabCountComments').textContent = commentedPostsList.length;
@@ -1392,21 +1484,50 @@
 
             const proBox = document.getElementById('proUpgradeBoxSection');
             if(isProAccount) {
-                proBox.innerHTML = `<div style="color:var(--success); font-weight:bold; font-size:13px;"><i class="fa-solid fa-circle-check"></i> حسابك مفعل باحترافية (Pro) ويمكنك نشر أعمالك الفنية الآن!</div>`;
+                proBox.innerHTML = `<div style="color:var(--success); font-weight:bold; font-size:13px;"><i class="fa-solid fa-circle-check"></i> حسابك (${currentUser.accountId}) مفعل باحترافية ويمكنك نشر وإدارة أعمالك الآن!</div>`;
                 document.getElementById('uploadPostContainer').style.display = 'block';
             } else {
                 proBox.style.display = 'block';
             }
 
+            renderMyUploadsGrid();
             renderInteractiveGrid('savedGridContainer', savedPostsList);
             renderInteractiveGrid('likesGridContainer', likedPostsList);
             renderInteractiveGrid('commentsGridContainer', commentedPostsList);
             renderInteractiveGrid('sharesGridContainer', sharedPostsList);
         }
 
+        function renderMyUploadsGrid() {
+            const container = document.getElementById('uploadsGridContainer');
+            if(customUploadedPosts.length > 0) {
+                container.innerHTML = customUploadedPosts.map(post => `
+                    <div class="interactive-thumb-card" style="position:relative;">
+                        <button class="delete-upload-item-btn" onclick="deleteCustomPost('${post.id}')" title="حذف المنشور"><i class="fa-solid fa-trash-can"></i></button>
+                        <div onclick="openFullPostModal('${post.title.replace(/'/g, "\\'")}', '${post.imgSrc}', '${post.caption ? post.caption.replace(/'/g, "\\'") : ''}')">
+                            <img src="${post.imgSrc}" alt="${post.title}">
+                            <div class="interactive-thumb-title">${post.title}</div>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                container.innerHTML = `<div style="grid-column: span 2; text-align:center; color:var(--text-muted); font-size:11px; padding:25px;">لا توجد أعمال منشورة لك حتى الآن.</div>`;
+            }
+        }
+
+        function deleteCustomPost(postId) {
+            if(confirm("هل أنت متأكد من حذف هذا العمل الفني نهائياً من حسابك والمعرض؟")) {
+                customUploadedPosts = customUploadedPosts.filter(p => p.id !== postId);
+                delete postStats[postId];
+                saveAppDataToCache();
+                renderCustomUploadedPosts();
+                updateProfileUIData();
+                alert("تم حذف المنشور بنجاح.");
+            }
+        }
+
         function renderInteractiveGrid(containerId, list) {
             const container = document.getElementById(containerId);
-            if(list.length > 0) {
+            if(list && list.length > 0) {
                 container.innerHTML = list.map(post => `
                     <div class="interactive-thumb-card" onclick="openFullPostModal('${post.title.replace(/'/g, "\\'")}', '${post.imgSrc}', '${post.caption ? post.caption.replace(/'/g, "\\'") : ''}')">
                         <img src="${post.imgSrc}" alt="${post.title}">
@@ -1434,7 +1555,7 @@
                     currentUser.avatarUrl = e.target.result;
                     saveAppDataToCache();
                     updateProfileUIData();
-                    alert("تم تحديث صورة البروفايل وحفظها في الكاش بنجاح!");
+                    alert("تم تحديث صورة البروفايل بنجاح!");
                 }
                 reader.readAsDataURL(file);
             }
@@ -1442,6 +1563,7 @@
 
         function openEditProfileModal() {
             document.getElementById('editNameInput').value = currentUser.name;
+            document.getElementById('editIdInput').value = currentUser.accountId;
             document.getElementById('editEmailInput').value = currentUser.email;
             document.getElementById('editBioInput').value = currentUser.bio;
             document.getElementById('editProfileModal').classList.add('active');
@@ -1457,17 +1579,11 @@
             if(isLoggedIn) document.getElementById('accountBtnText').textContent = currentUser.name;
             updateProfileUIData();
             closeEditProfileModal();
-            alert("تم حفظ تعديلات الحساب بنجاح!");
+            alert("تم حفظ تعديلات الحساب بنجاح! (معرف الحساب ثابت وغير قابل للتعديل).");
         }
 
         function sendProRequestModal() {
             const dialog = document.getElementById('professionalDialog');
-            document.getElementById('dialogIcon').innerHTML = `<i class="fa-solid fa-envelope-open-text"></i>`;
-            document.getElementById('dialogTitle').innerText = "طلب تفعيل الحساب الاحترافي";
-            document.getElementById('dialogBody').innerHTML = `
-                للحصول على كود التفعيل الخاص بمعرض <strong>Art with Nesrine</strong> ونشر أعمالك الفنية، يُرجى التواصل معنا عبر البريد الإلكتروني:<br><br>
-                <strong><a href="mailto:khaled.basri745@gmail.com">khaled.basri745@gmail.com</a></strong>
-            `;
             dialog.showModal();
         }
 
@@ -1481,31 +1597,19 @@
         function verifyActivationCode() {
             const enteredCode = document.getElementById('actCodeInput').value.trim();
             closeActivationCodeModal();
-            const dialog = document.getElementById('professionalDialog');
 
             if (enteredCode === CURRENT_ACTIVATION_CODE) {
                 isProAccount = true;
                 saveAppDataToCache();
                 updateProfileUIData();
-                document.getElementById('dialogIcon').innerHTML = `<i class="fa-solid fa-circle-check"></i>`;
-                document.getElementById('dialogTitle').innerText = "تهانينا! تم تفعيل الحساب";
-                document.getElementById('dialogBody').innerHTML = `
-                    تم التحقق من كود التفعيل الاحترافي بنجاح على منصة <strong>Art with Nesrine</strong> وحفظه في الكاش. أصبح بإمكانك الآن مشاركة ونشر إبداعاتك الفنية مباشرة!
-                `;
+                alert(`تم تفعيل حسابك الاحترافي (${currentUser.accountId}) بنجاح!`);
             } else {
-                document.getElementById('dialogIcon').innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i>`;
-                document.getElementById('dialogTitle').innerText = "خطأ في كود التفعيل";
-                document.getElementById('dialogBody').innerHTML = `
-                    كود التفعيل المدخل غير صحيح. للحصول على الكود الصحيح، يرجى التواصل معنا عبر البريد الإلكتروني:<br><br>
-                    <strong><a href="mailto:khaled.basri745@gmail.com">khaled.basri745@gmail.com</a></strong>
-                `;
+                alert("كود التفعيل غير صحيح.");
             }
-            dialog.showModal();
         }
 
         function closeProfessionalDialog() {
             document.getElementById('professionalDialog').close();
-            document.getElementById('actCodeInput').value = '';
         }
 
         function openUploadPostModal() { document.getElementById('uploadPostModal').classList.add('active'); }
@@ -1513,47 +1617,80 @@
 
         function publishNewArtwork() {
             const title = document.getElementById('newArtTitle').value.trim();
-            const imgUrl = document.getElementById('newArtImgUrl').value.trim();
+            const imgUrlInput = document.getElementById('newArtImgUrl').value.trim();
+            const fileInput = document.getElementById('newArtFile').files[0];
             const caption = document.getElementById('newArtCaption').value.trim();
 
-            if(!title || !imgUrl) {
-                alert("يرجى إدخال عنوان الرسمة ورابط الصورة على الأقل.");
+            if(!title) {
+                alert("يرجى إدخال عنوان الرسمة.");
                 return;
             }
 
+            if(fileInput) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    savePostWithImage(title, e.target.result, caption);
+                }
+                reader.readAsDataURL(fileInput);
+            } else if(imgUrlInput) {
+                savePostWithImage(title, imgUrlInput, caption);
+            } else {
+                alert("يرجى إدخال رابط الصورة أو رفع صورة من جهازك.");
+            }
+        }
+
+        function savePostWithImage(title, imgSrc, caption) {
+            const uniqueId = 'custom-' + Date.now();
             const newPost = {
-                id: 'custom-' + Date.now(),
+                id: uniqueId,
                 title,
-                imgUrl,
+                imgSrc: imgSrc,
                 caption: caption || 'عمل فني جديد مميز.',
                 authorName: currentUser.name,
+                authorId: currentUser.accountId,
                 authorAvatar: currentUser.avatarUrl
             };
 
             customUploadedPosts.push(newPost);
+            postStats[uniqueId] = { views: Math.floor(Math.random() * 30) + 10, likes: Math.floor(Math.random() * 15) + 5, commentsCount: 0 };
+            
             saveAppDataToCache();
             renderCustomUploadedPosts();
 
             closeUploadPostModal();
             document.getElementById('newArtTitle').value = '';
             document.getElementById('newArtImgUrl').value = '';
+            document.getElementById('newArtFile').value = '';
             document.getElementById('newArtCaption').value = '';
-            alert("تم نشر عملك الفني بنجاح وحفظه في الكاش!");
+
+            sendToFormspree({
+                action: "منشور جديد تم نشره",
+                postId: uniqueId,
+                title: title,
+                author: currentUser.name,
+                accountId: currentUser.accountId,
+                image: imgSrc.substring(0, 100)
+            });
+
+            alert("تم نشر عملك الفني وظهوره في المعرض بنجاح!");
         }
 
         function renderCustomUploadedPosts() {
             const feedContainer = document.getElementById('dynamicFeedContainer');
-            feedContainer.innerHTML = customUploadedPosts.map(post => `
-                <div class="art-card" id="${post.id}">
+            feedContainer.innerHTML = customUploadedPosts.map(post => {
+                const stat = postStats[post.id] || { views: 50, likes: 12 };
+                const authorIdStr = post.authorId || currentUser.accountId;
+                return `
+                <div class="art-card" id="post-${post.id}" data-post-id="${post.id}">
                     <div class="art-header">
                         <div class="author-flex">
                             <div class="avatar">${post.authorAvatar ? `<img src="${post.authorAvatar}">` : post.authorName.charAt(0).toUpperCase()}</div>
                             <div class="author-info">
-                                <h3>${post.authorName} <i class="fa-solid fa-circle-check" style="color:var(--accent); font-size:11px;" title="حساب احترافي موثق"></i></h3>
-                                <span>${post.title}</span>
+                                <h3>${post.authorName}</h3>
+                                <span>ID: ${authorIdStr}</span>
                             </div>
                         </div>
-                        <button class="save-art-btn" id="saveBtn-${post.id}" onclick="toggleSaveArtwork('${post.id}', '${post.title}', '${post.imgUrl}', '${post.caption}')" title="حفظ في المفضلة">
+                        <button class="save-art-btn" id="saveBtn-${post.id}" onclick="toggleSaveArtwork('${post.id}', '${post.title}', '${post.imgSrc}', '${post.caption}')" title="حفظ في المفضلة">
                             <i class="fa-solid fa-bookmark"></i>
                         </button>
                     </div>
@@ -1563,42 +1700,41 @@
                             <div class="art-pro-text">✨ إبداع فني بريشة ${post.authorName} ✨</div>
                             <div class="art-badge">Art with Nesrine</div>
                         </div>
-                        <img src="${post.imgUrl}" alt="${post.title}" class="art-image" id="img-${post.id}">
+                        <img src="${post.imgSrc}" alt="${post.title}" class="art-image" id="img-${post.id}">
                     </div>
                     <div class="art-stats">
-                        <span id="likeText-${post.id}">❤️ 0 إعجاب</span>
+                        <span id="likeText-${post.id}">❤️ ${stat.likes} إعجاب</span>
+                        <span id="viewText-${post.id}" style="font-size:11px; color:var(--text-muted);"><i class="fa-solid fa-eye"></i> ${stat.views} مشاهدة</span>
                         <button class="download-phone-btn" onclick="downloadImageWithLogo('img-${post.id}', '${post.title}.jpg', '${post.title}')">
                             <i class="fa-solid fa-download"></i> تنزيل الرسمة مع الشعار
                         </button>
                     </div>
                     <div class="art-actions">
-                        <button class="action-btn" id="likeBtn-${post.id}" onclick="toggleLike('${post.id}', '${post.title}', '${post.imgUrl}')">
+                        <button class="action-btn" id="likeBtn-${post.id}" onclick="toggleLike('${post.id}', '${post.title}', '${post.imgSrc}')">
                             <i class="fa-regular fa-heart" id="likeIcon-${post.id}"></i> إعجاب
                         </button>
-                        <button class="action-btn" onclick="openShareModal('${post.title}')">
+                        <button class="action-btn" onclick="openShareModal('${post.title}', '${post.id}')">
                             <i class="fa-solid fa-share"></i> مشاركة
                         </button>
                     </div>
                     <div class="comments-section" id="commentsList-${post.id}">
                         <div class="comment-input-box">
                             <input type="text" class="comment-input" id="input-${post.id}" placeholder="اكتب تعليقاً..." onkeypress="handleKey(event, '${post.id}')">
-                            <button class="send-btn" onclick="addComment('${post.id}', '${post.title}', '${post.imgUrl}')"><i class="fa-solid fa-paper-plane"></i></button>
+                            <button class="send-btn" onclick="addComment('${post.id}', '${post.title}', '${post.imgSrc}')"><i class="fa-solid fa-paper-plane"></i></button>
                         </div>
                     </div>
                 </div>
-            `).join('');
+            `;
+            }).join('');
             restoreInteractiveUIs();
         }
 
-        // استعادة أزرار الحفظ والإعجاب بناءً على الكاش عند تحديث الصفحة
         function restoreInteractiveUIs() {
-            // حفظ
             savedPostsList.forEach(post => {
                 const btn = document.getElementById(`saveBtn-${post.id}`);
                 if(btn) btn.classList.add('saved');
             });
 
-            // إعجاب
             Object.keys(likedStatus).forEach(id => {
                 if(likedStatus[id]) {
                     const btn = document.getElementById(`likeBtn-${id}`);
@@ -1611,7 +1747,7 @@
 
         function toggleSaveArtwork(id, title, imgSrc, caption) {
             if(!isLoggedIn) {
-                alert("يرجى تسجيل الدخول أولاً لحفظ المنشورات في حسابك.");
+                alert("يرجى تسجيل الدخول أولاً لحفظ المنشورات.");
                 openLoginModal();
                 return;
             }
@@ -1622,7 +1758,7 @@
             if(existingIndex === -1) {
                 savedPostsList.push({ id, title, imgSrc, caption });
                 if(btn) btn.classList.add('saved');
-                alert("تم حفظ المنشور في المفضلة وحفظه في الكاش!");
+                alert("تم حفظ المنشور في المفضلة!");
             } else {
                 savedPostsList.splice(existingIndex, 1);
                 if(btn) btn.classList.remove('saved');
@@ -1659,6 +1795,7 @@
                 if(btn) btn.classList.add('liked');
                 if(icon) icon.className = 'fa-solid fa-heart';
                 if(text) text.textContent = text.textContent.replace(/\d+/, match => parseInt(match) + 1);
+                if(postStats[id]) postStats[id].likes++;
                 
                 if(!likedPostsList.some(p => p.title === title)) {
                     likedPostsList.push({ id, title, imgSrc });
@@ -1667,6 +1804,7 @@
                 if(btn) btn.classList.remove('liked');
                 if(icon) icon.className = 'fa-regular fa-heart';
                 if(text) text.textContent = text.textContent.replace(/\d+/, match => Math.max(0, parseInt(match) - 1));
+                if(postStats[id]) postStats[id].likes = Math.max(0, postStats[id].likes - 1);
                 
                 likedPostsList = likedPostsList.filter(p => p.title !== title);
             }
@@ -1680,7 +1818,7 @@
             if(!val) return;
 
             if(!isLoggedIn) {
-                alert("يرجى تسجيل الدخول أولاً لتتمكن من إضافة تعليق.");
+                alert("يرجى تسجيل الدخول أولاً للتعليق.");
                 openLoginModal();
                 return;
             }
@@ -1693,7 +1831,7 @@
             newDiv.innerHTML = `
                 <div class="avatar" style="width: 28px; height: 28px; font-size: 11px; background: #ff6f91;">${currentUser.name.charAt(0).toUpperCase()}</div>
                 <div class="comment-bubble">
-                    <div class="comment-user">${currentUser.name}</div>
+                    <div class="comment-user">${currentUser.name} (ID: ${currentUser.accountId})</div>
                     <div class="comment-text">${val}</div>
                 </div>
             `;
@@ -1705,23 +1843,32 @@
             }
             saveAppDataToCache();
             updateProfileUIData();
+
+            sendToFormspree({
+                action: "تعليق جديد",
+                postId: id,
+                commenter: currentUser.name,
+                accountId: currentUser.accountId,
+                commentText: val
+            });
         }
 
         function handleKey(e, id) {
             if(e.key === 'Enter') {
-                addComment(id, "عمل فني معلق عليه", "https://picsum.photos/id/1069/1000/1000");
+                addComment(id, "عمل فني", "https://picsum.photos/id/1069/1000/1000");
             }
         }
 
-        function openShareModal(title) {
-            const url = window.location.href;
-            const text = encodeURIComponent(`اكتشف لوحة "${title}" الرائعة في معرض Art with Nesrine`);
+        function openShareModal(title, postId = '1') {
+            const baseUrl = window.location.origin + window.location.pathname;
+            const directPostUrl = `${baseUrl}?postId=${postId}`;
+            const text = encodeURIComponent(`اكتشف لوحة "${title}" الرائعة عبر هذا الرابط:`);
             
-            document.getElementById('shareLinkInput').value = url;
-            document.getElementById('shareWhatsapp').href = `https://api.whatsapp.com/send?text=${text}%20${encodeURIComponent(url)}`;
-            document.getElementById('shareFacebook').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-            document.getElementById('shareTwitter').href = `https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(url)}`;
-            document.getElementById('shareTelegram').href = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${text}`;
+            document.getElementById('shareLinkInput').value = directPostUrl;
+            document.getElementById('shareWhatsapp').href = `https://api.whatsapp.com/send?text=${text}%20${encodeURIComponent(directPostUrl)}`;
+            document.getElementById('shareFacebook').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(directPostUrl)}`;
+            document.getElementById('shareTwitter').href = `https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(directPostUrl)}`;
+            document.getElementById('shareTelegram').href = `https://t.me/share/url?url=${encodeURIComponent(directPostUrl)}&text=${text}`;
 
             if(isLoggedIn) {
                 if(!sharedPostsList.some(p => p.title === title)) {
@@ -1738,7 +1885,7 @@
             const input = document.getElementById('shareLinkInput');
             input.select();
             navigator.clipboard.writeText(input.value);
-            alert("تم نسخ رابط المعرض بنجاح!");
+            alert("تم نسخ الرابط بنجاح!");
         }
 
         function downloadImageWithLogo(imgElementId, filename, artTitle) {
@@ -1778,7 +1925,7 @@
                 ctx.fillStyle = "#9ca3af";
                 ctx.font = "18px 'Cairo', sans-serif";
                 ctx.textAlign = "center";
-                ctx.fillText(`لوحة: ${artTitle} — جميع الحقوق محفوظة KHBSR © 2026`, canvas.width / 2, canvas.height - 27);
+                ctx.fillText(`لوحة: ${artTitle} — جميع الحقوق محفوظة khbsr © 2026`, canvas.width / 2, canvas.height - 27);
 
                 const link = document.createElement('a');
                 link.download = filename;
@@ -1787,7 +1934,7 @@
             };
             
             img.onerror = function() {
-                alert("عذراً، تعذر تنزيل الصورة مباشرة بسبب إعدادات الخادم، يمكنك الضغط عليها مطولاً لحفظها.");
+                alert("عذراً، تعذر تنزيل الصورة مباشرة.");
             }
         }
     </script>
