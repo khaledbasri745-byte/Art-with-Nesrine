@@ -66,9 +66,25 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
 
+        .logo-flex-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .site-logo-img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            border-radius: 50%;
+            background: rgba(132, 94, 194, 0.1);
+            padding: 3px;
+            box-shadow: 0 0 12px rgba(132, 94, 194, 0.5), 0 0 4px rgba(255, 111, 145, 0.3);
+        }
+
         .logo h1 {
             font-family: 'Reem Kufi', sans-serif;
-            font-size: 20px;
+            font-size: 19px;
             font-weight: 600;
             background: linear-gradient(135deg, #fff, var(--accent));
             -webkit-background-clip: text;
@@ -227,7 +243,7 @@
         .art-image {
             width: 100%;
             max-height: 480px;
-            object-fit: contain;
+            object-fit: cover;
             display: block;
             margin: 0 auto;
         }
@@ -258,6 +274,12 @@
         .download-phone-btn:hover {
             background: var(--primary);
             border-color: var(--primary);
+        }
+        .download-phone-btn.downloading {
+            background: var(--primary);
+            border-color: var(--primary);
+            pointer-events: none;
+            opacity: 0.8;
         }
 
         .art-actions {
@@ -693,6 +715,40 @@
             cursor: pointer;
         }
 
+        /* نافذة تسجيل الدخول */
+        .login-modal-box {
+            background: linear-gradient(145deg, #1d1a29, #14141c);
+            border: 1px solid rgba(132, 94, 194, 0.4);
+            box-shadow: 0 15px 40px rgba(132, 94, 194, 0.2);
+            text-align: center;
+            padding: 30px 24px;
+        }
+
+        .login-modal-logo {
+            width: 64px;
+            height: 64px;
+            object-fit: contain;
+            border-radius: 50%;
+            margin: 0 auto 12px auto;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 15px rgba(132, 94, 194, 0.3);
+        }
+
+        .login-modal-header-text h3 {
+            font-family: 'Reem Kufi', sans-serif;
+            font-size: 20px;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .login-modal-header-text p {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
         .social-share-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -758,6 +814,7 @@
 
         .form-group {
             margin-bottom: 14px;
+            text-align: right;
         }
 
         .form-group label {
@@ -793,12 +850,17 @@
             background: var(--primary);
             border: none;
             color: white;
-            padding: 10px;
-            border-radius: 10px;
+            padding: 12px;
+            border-radius: 12px;
             font-weight: 700;
             font-size: 14px;
             cursor: pointer;
             margin-top: 5px;
+            box-shadow: 0 4px 15px rgba(132, 94, 194, 0.3);
+            transition: 0.2s;
+        }
+        .submit-login-btn:hover {
+            background: var(--primary-hover);
         }
 
         dialog {
@@ -921,11 +983,14 @@
         
         <!-- قسم المعرض الرئيسي -->
         <div id="homeView" class="view-section active">
-            <!-- رأس الموقع بالشعار وأزرار الحساب -->
+            <!-- رأس الموقع بالشعار الجديد وأزرار الحساب -->
             <header>
-                <div class="logo">
-                    <h1>Art with Nesrine</h1>
-                    <span>معرض الرسومات الإبداعية</span>
+                <div class="logo-flex-header">
+                    <img src="https://lh3.googleusercontent.com/d/1n3MoNjDxZ-cvIearSttHV0geQDTY6D5W=s200" alt="Art with Nesrine Logo" class="site-logo-img">
+                    <div class="logo">
+                        <h1>Art with Nesrine</h1>
+                        <span>معرض الرسومات الإبداعية</span>
+                    </div>
                 </div>
                 <div class="header-actions">
                     <button class="header-btn" id="accountHeaderBtn" onclick="handleAccountClick()">
@@ -934,7 +999,7 @@
                 </div>
             </header>
 
-            <!-- زر رفع الرسوم (يظهر فقط للحسابات المفعلة Pro) -->
+            <!-- زر رفع الرسوم -->
             <div id="uploadPostContainer" style="display: none; margin-bottom: 20px;">
                 <button class="submit-login-btn" onclick="openUploadPostModal()" style="display: flex; align-items: center; justify-content: center; gap: 8px; background: linear-gradient(135deg, var(--primary), var(--accent));">
                     <i class="fa-solid fa-cloud-arrow-up"></i> نشر رسومات وأعمال فنية جديدة
@@ -968,8 +1033,8 @@
                 <div class="art-stats">
                     <span id="likeText-1">❤️ 24 إعجاب</span>
                     <span id="viewText-1" style="font-size:11px; color:var(--text-muted);"><i class="fa-solid fa-eye"></i> 142 مشاهدة</span>
-                    <button class="download-phone-btn" onclick="downloadImageWithLogo('img-1', 'Nesrine_Artwork_1.jpg', 'لوحة صمت المشاعر')">
-                        <i class="fa-solid fa-download"></i> تنزيل الرسمة مع الشعار
+                    <button class="download-phone-btn" id="downloadBtn-1" onclick="downloadImageWithLogo('img-1', 'Nesrine_Artwork_1.jpg', 'لوحة صمت المشاعر', '1')">
+                        <i class="fa-solid fa-download"></i> <span class="download-btn-text">تنزيل الرسمة مع الشعار</span>
                     </button>
                 </div>
                 <div class="art-actions">
@@ -1022,8 +1087,8 @@
                 <div class="art-stats">
                     <span id="likeText-2">❤️ 41 إعجاب</span>
                     <span id="viewText-2" style="font-size:11px; color:var(--text-muted);"><i class="fa-solid fa-eye"></i> 210 مشاهدة</span>
-                    <button class="download-phone-btn" onclick="downloadImageWithLogo('img-2', 'Nesrine_Artwork_2.jpg', 'أطياف النور الخافت')">
-                        <i class="fa-solid fa-download"></i> تنزيل الرسمة مع الشعار
+                    <button class="download-phone-btn" id="downloadBtn-2" onclick="downloadImageWithLogo('img-2', 'Nesrine_Artwork_2.jpg', 'أطياف النور الخافت', '2')">
+                        <i class="fa-solid fa-download"></i> <span class="download-btn-text">تنزيل الرسمة مع الشعار</span>
                     </button>
                 </div>
                 <div class="art-actions">
@@ -1052,7 +1117,6 @@
             <!-- حاوية المنشورات المضافة حديثاً -->
             <div id="dynamicFeedContainer"></div>
 
-            <!-- حقوق النشر الرسمية -->
             <footer class="site-footer">
                 جميع الحقوق محفوظة khbsr © 2026
             </footer>
@@ -1100,7 +1164,6 @@
                     </div>
                 </div>
 
-                <!-- ترقية الحساب وتفعيل كود Pro الاحترافي -->
                 <div class="pro-upgrade-box" id="proUpgradeBoxSection">
                     <h4>ترقية الحساب إلى احترافي (Pro)</h4>
                     <p>يتيح لك حساب Pro نشر رسوماتك في المعرض! تواصل معنا للحصول على كود التفعيل الخاص بك.</p>
@@ -1110,7 +1173,6 @@
                     </div>
                 </div>
 
-                <!-- نظام السلايدر التفاعلي -->
                 <div style="margin-top: 15px;">
                     <div class="profile-tabs-nav">
                         <button class="profile-tab-btn active" onclick="switchProfileTab('uploads', this)">أعمالي (<span id="tabCountUploads">0</span>)</button>
@@ -1160,7 +1222,7 @@
         <button class="dialog-btn" onclick="closeProfessionalDialog()">حسناً، شكراً لك</button>
     </dialog>
 
-    <!-- نافذة إدخال كود التفعيل اليدوي -->
+    <!-- نافذة كود التفعيل -->
     <div class="modal-overlay" id="activationCodeModal">
         <div class="modal-box">
             <div class="modal-title">
@@ -1202,7 +1264,7 @@
         </div>
     </div>
 
-    <!-- نافذة عرض المنشور التفاعلي المحفوظ كاملاً -->
+    <!-- نافذة عرض المنشور الكامل -->
     <div class="modal-overlay" id="fullPostModal">
         <div class="modal-box full-post-modal-box">
             <div class="full-post-header">
@@ -1215,10 +1277,12 @@
 
     <!-- نافذة تسجيل الدخول -->
     <div class="modal-overlay" id="loginModal">
-        <div class="modal-box">
-            <div class="modal-title">
-                <span>تسجيل الدخول</span>
-                <button class="modal-close" onclick="closeLoginModal()">&times;</button>
+        <div class="modal-box login-modal-box">
+            <button class="modal-close" onclick="closeLoginModal()" style="position: absolute; top: 16px; left: 16px;">&times;</button>
+            <img src="https://lh3.googleusercontent.com/d/1n3MoNjDxZ-cvIearSttHV0geQDTY6D5W=s200" alt="Logo" class="login-modal-logo">
+            <div class="login-modal-header-text">
+                <h3>مرحباً بك في المعرض</h3>
+                <p>سجل دخولك لإنشاء حسابك والانضمام للمجتمع الفني</p>
             </div>
             <div class="form-group">
                 <label>اسم المستخدم</label>
@@ -1226,11 +1290,11 @@
             </div>
             <div class="form-group">
                 <label>معرف الحساب (يُنشأ تلقائياً 16 خانة فريدة)</label>
-                <input type="text" class="form-input" id="userIdInput" readonly style="background: rgba(255,255,255,0.03); border-style: dashed; color: var(--text-muted); cursor: not-allowed;">
+                <input type="text" class="form-input" id="userIdInput" readonly>
             </div>
             <div class="form-group">
                 <label>البريد الإلكتروني</label>
-                <input type="email" class="form-input" id="emailInput" value="khaled.basri745@gmail.com" placeholder="khaled.basri745@gmail.com">
+                <input type="email" class="form-input" id="emailInput" value="khaled.basri745@gmail.com" placeholder="name@example.com">
             </div>
             <button class="submit-login-btn" onclick="performLogin()">دخول وإنشاء الحساب</button>
         </div>
@@ -1248,11 +1312,11 @@
                 <input type="text" class="form-input" id="newArtTitle" placeholder="مثال: أضواء الغسق...">
             </div>
             <div class="form-group">
-                <label>رابط الصورة (من غوغل درايف أو أي موقع) أو ارفع صورة مباشرة</label>
+                <label>رابط الصورة أو رفع صورة مباشرة</label>
                 <input type="text" class="form-input" id="newArtImgUrl" placeholder="https://... (اختياري إذا رفعت ملفاً)">
             </div>
             <div class="form-group">
-                <label>أو رفع صورة من الجهاز (تحفظ في الكاش تلقائياً)</label>
+                <label>أو رفع صورة من الجهاز</label>
                 <input type="file" class="form-input" id="newArtFile" accept="image/*">
             </div>
             <div class="form-group">
@@ -1304,8 +1368,8 @@
             }).catch(err => console.log('Formspree sync error:', err));
         }
 
-        let isLoggedIn = localStorage.getItem('art_isLoggedIn') === 'true' || true;
-        let isProAccount = localStorage.getItem('art_isProAccount') === 'true' || true;
+        let isLoggedIn = localStorage.getItem('art_isLoggedIn') === 'true';
+        let isProAccount = localStorage.getItem('art_isProAccount') === 'true';
         
         let storedId = localStorage.getItem('art_userId_16');
         if (!storedId) {
@@ -1320,10 +1384,6 @@
             bio: "محب للفنون البصرية والبرمجة ✨",
             avatarUrl: ""
         };
-
-        if(!currentUser.accountId || currentUser.accountId.length !== 16) {
-            currentUser.accountId = storedId;
-        }
 
         let savedPostsList = JSON.parse(localStorage.getItem('art_savedPosts')) || [];
         let likedPostsList = JSON.parse(localStorage.getItem('art_likedPosts')) || [];
@@ -1364,33 +1424,20 @@
             }, 12000);
         }
 
-        function handleDirectUrlRouting() {
-            const params = new URLSearchParams(window.location.search);
-            const postId = params.get('postId');
-            if (postId) {
-                setTimeout(() => {
-                    const targetCard = document.getElementById(`post-${postId}`);
-                    if (targetCard) {
-                        targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        targetCard.style.border = '2px solid var(--accent)';
-                        setTimeout(() => { targetCard.style.border = '1px solid var(--border-color)'; }, 3000);
-                    }
-                }, 300);
-            }
-        }
-
         window.addEventListener('DOMContentLoaded', () => {
             if (isLoggedIn) {
                 document.getElementById('accountBtnText').textContent = currentUser.name;
                 if (isProAccount) {
                     document.getElementById('uploadPostContainer').style.display = 'block';
                 }
+            } else {
+                document.getElementById('accountBtnText').textContent = "دخول";
+                document.getElementById('uploadPostContainer').style.display = 'none';
             }
             document.getElementById('userIdInput').value = currentUser.accountId;
             renderCustomUploadedPosts();
             restoreInteractiveUIs();
             initFakeActivitySimulation();
-            handleDirectUrlRouting();
         });
 
         function handleAccountClick() {
@@ -1441,21 +1488,17 @@
                 email: currentUser.email,
                 time: new Date().toLocaleString()
             });
-
-            alert(`أهلاً بك يا ${currentUser.name} في حسابك! المعرف الخاص بك غير قابل للتعديل: ${currentUser.accountId} ✨🎨`);
         }
 
         function performLogout() {
             isLoggedIn = false;
             isProAccount = false;
-            localStorage.removeItem('art_isLoggedIn');
-            localStorage.removeItem('art_isProAccount');
-            localStorage.removeItem('art_currentUser');
+            localStorage.setItem('art_isLoggedIn', 'false');
+            localStorage.setItem('art_isProAccount', 'false');
             
             document.getElementById('accountBtnText').textContent = "دخول";
             document.getElementById('uploadPostContainer').style.display = 'none';
             switchToHomeView();
-            alert("تم تسجيل الخروج بنجاح.");
         }
 
         function updateProfileUIData() {
@@ -1515,13 +1558,12 @@
         }
 
         function deleteCustomPost(postId) {
-            if(confirm("هل أنت متأكد من حذف هذا العمل الفني نهائياً من حسابك والمعرض؟")) {
+            if(confirm("هل أنت متأكد من حذف هذا العمل الفني نهائياً؟")) {
                 customUploadedPosts = customUploadedPosts.filter(p => p.id !== postId);
                 delete postStats[postId];
                 saveAppDataToCache();
                 renderCustomUploadedPosts();
                 updateProfileUIData();
-                alert("تم حذف المنشور بنجاح.");
             }
         }
 
@@ -1555,7 +1597,6 @@
                     currentUser.avatarUrl = e.target.result;
                     saveAppDataToCache();
                     updateProfileUIData();
-                    alert("تم تحديث صورة البروفايل بنجاح!");
                 }
                 reader.readAsDataURL(file);
             }
@@ -1579,12 +1620,10 @@
             if(isLoggedIn) document.getElementById('accountBtnText').textContent = currentUser.name;
             updateProfileUIData();
             closeEditProfileModal();
-            alert("تم حفظ تعديلات الحساب بنجاح! (معرف الحساب ثابت وغير قابل للتعديل).");
         }
 
         function sendProRequestModal() {
-            const dialog = document.getElementById('professionalDialog');
-            dialog.showModal();
+            document.getElementById('professionalDialog').showModal();
         }
 
         function openActivationCodeModal() {
@@ -1602,9 +1641,6 @@
                 isProAccount = true;
                 saveAppDataToCache();
                 updateProfileUIData();
-                alert(`تم تفعيل حسابك الاحترافي (${currentUser.accountId}) بنجاح!`);
-            } else {
-                alert("كود التفعيل غير صحيح.");
             }
         }
 
@@ -1621,10 +1657,7 @@
             const fileInput = document.getElementById('newArtFile').files[0];
             const caption = document.getElementById('newArtCaption').value.trim();
 
-            if(!title) {
-                alert("يرجى إدخال عنوان الرسمة.");
-                return;
-            }
+            if(!title) return;
 
             if(fileInput) {
                 const reader = new FileReader();
@@ -1634,8 +1667,6 @@
                 reader.readAsDataURL(fileInput);
             } else if(imgUrlInput) {
                 savePostWithImage(title, imgUrlInput, caption);
-            } else {
-                alert("يرجى إدخال رابط الصورة أو رفع صورة من جهازك.");
             }
         }
 
@@ -1662,17 +1693,6 @@
             document.getElementById('newArtImgUrl').value = '';
             document.getElementById('newArtFile').value = '';
             document.getElementById('newArtCaption').value = '';
-
-            sendToFormspree({
-                action: "منشور جديد تم نشره",
-                postId: uniqueId,
-                title: title,
-                author: currentUser.name,
-                accountId: currentUser.accountId,
-                image: imgSrc.substring(0, 100)
-            });
-
-            alert("تم نشر عملك الفني وظهوره في المعرض بنجاح!");
         }
 
         function renderCustomUploadedPosts() {
@@ -1705,8 +1725,8 @@
                     <div class="art-stats">
                         <span id="likeText-${post.id}">❤️ ${stat.likes} إعجاب</span>
                         <span id="viewText-${post.id}" style="font-size:11px; color:var(--text-muted);"><i class="fa-solid fa-eye"></i> ${stat.views} مشاهدة</span>
-                        <button class="download-phone-btn" onclick="downloadImageWithLogo('img-${post.id}', '${post.title}.jpg', '${post.title}')">
-                            <i class="fa-solid fa-download"></i> تنزيل الرسمة مع الشعار
+                        <button class="download-phone-btn" id="downloadBtn-${post.id}" onclick="downloadImageWithLogo('img-${post.id}', '${post.title}.jpg', '${post.title}', '${post.id}')">
+                            <i class="fa-solid fa-download"></i> <span class="download-btn-text">تنزيل الرسمة مع الشعار</span>
                         </button>
                     </div>
                     <div class="art-actions">
@@ -1747,7 +1767,6 @@
 
         function toggleSaveArtwork(id, title, imgSrc, caption) {
             if(!isLoggedIn) {
-                alert("يرجى تسجيل الدخول أولاً لحفظ المنشورات.");
                 openLoginModal();
                 return;
             }
@@ -1758,11 +1777,9 @@
             if(existingIndex === -1) {
                 savedPostsList.push({ id, title, imgSrc, caption });
                 if(btn) btn.classList.add('saved');
-                alert("تم حفظ المنشور في المفضلة!");
             } else {
                 savedPostsList.splice(existingIndex, 1);
                 if(btn) btn.classList.remove('saved');
-                alert("تم إزالة المنشور من المفضلة.");
             }
             saveAppDataToCache();
             updateProfileUIData();
@@ -1781,7 +1798,6 @@
 
         function toggleLike(id, title, imgSrc) {
             if(!isLoggedIn) {
-                alert("يرجى تسجيل الدخول أولاً للتفاعل.");
                 openLoginModal();
                 return;
             }
@@ -1818,7 +1834,6 @@
             if(!val) return;
 
             if(!isLoggedIn) {
-                alert("يرجى تسجيل الدخول أولاً للتعليق.");
                 openLoginModal();
                 return;
             }
@@ -1843,14 +1858,6 @@
             }
             saveAppDataToCache();
             updateProfileUIData();
-
-            sendToFormspree({
-                action: "تعليق جديد",
-                postId: id,
-                commenter: currentUser.name,
-                accountId: currentUser.accountId,
-                commentText: val
-            });
         }
 
         function handleKey(e, id) {
@@ -1885,10 +1892,19 @@
             const input = document.getElementById('shareLinkInput');
             input.select();
             navigator.clipboard.writeText(input.value);
-            alert("تم نسخ الرابط بنجاح!");
         }
 
-        function downloadImageWithLogo(imgElementId, filename, artTitle) {
+        /* تنزيل الصورة مع تغيير نص الزر مؤقتاً بدون أي مربعات تنبيه */
+        function downloadImageWithLogo(imgElementId, filename, artTitle, postId) {
+            const downloadBtn = document.getElementById(`downloadBtn-${postId}`);
+            const textSpan = downloadBtn.querySelector('.download-btn-text');
+            const iconElement = downloadBtn.querySelector('i');
+            
+            // تغيير مظهر وزر التنزيل إلى حالة "جاري التجهيز والتنزيل"
+            downloadBtn.classList.add('downloading');
+            iconElement.className = "fa-solid fa-spinner fa-spin";
+            textSpan.textContent = "جاري تجهيز وتنزيل الرسمة...";
+
             const imgElement = document.getElementById(imgElementId);
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
@@ -1931,10 +1947,19 @@
                 link.download = filename;
                 link.href = canvas.toDataURL('image/jpeg', 0.95);
                 link.click();
+
+                // إعادة الزر إلى حالته الأصلية بعد انتهاء التحميل
+                setTimeout(() => {
+                    downloadBtn.classList.remove('downloading');
+                    iconElement.className = "fa-solid fa-download";
+                    textSpan.textContent = "تنزيل الرسمة مع الشعار";
+                }, 1000);
             };
             
             img.onerror = function() {
-                alert("عذراً، تعذر تنزيل الصورة مباشرة.");
+                downloadBtn.classList.remove('downloading');
+                iconElement.className = "fa-solid fa-download";
+                textSpan.textContent = "تنزيل الرسمة مع الشعار";
             }
         }
     </script>
